@@ -1,14 +1,23 @@
+import 'bootstrap/dist/css/bootstrap.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import App from './App'
 import './index.scss'
-import AppRouter from './AppRouter'
+import store from './redux/store'
 
 // You need bootstrap? $ yarn add bootstrap
 // See: https://create-react-app.dev/docs/adding-bootstrap
-// import 'bootstrap/dist/css/bootstrap.css';
 
 // Single-page application (SPA)
-ReactDOM.render(<AppRouter />, document.getElementById('root'))
+ReactDOM.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
+)
 
 // If you want to Pre-render with react-snap
 // Step 1: install $ yarn add --dev react-snap

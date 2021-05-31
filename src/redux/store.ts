@@ -1,11 +1,12 @@
-// src/redux/store.ts
-
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
+import logger from 'redux-logger'
+import { daysSlice } from './daySlice'
 
 const store = configureStore({
-  reducer: combineReducers({
-    // your reducers goes here
-  }),
+  reducer: {
+    days: daysSlice.reducer,
+  },
+  middleware: [logger],
 })
 
 export default store

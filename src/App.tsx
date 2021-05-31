@@ -1,18 +1,30 @@
-import React from 'react'
-import logo from './logo.svg'
+import React, { ChangeEvent, useState } from 'react'
 import './App.scss'
+import { selectFrequency } from './redux/daySlice'
+import { useAppDispatch, useAppSelector } from './redux/hooks'
+import { Day } from './redux/types/dayTypes'
 
-function App() {
+const App: React.FC = () => {
+  const daysList = useAppSelector((state) => state.days.days)
+  const selectedDay = useAppSelector((state) => state.days.selectedDay)
+  const dispatch = useAppDispatch()
+  const [days, setDays] = useState<number>(selectedDay.value)
+
+  const daysHandler = async (event: ChangeEvent<{ value: unknown }>) => {
+    setDays(event.target.value as number)
+    dispatch(selectFrequency(event.target.value as number))
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://github.com/EliEladElrom/react-tutorials" target="_blank" rel="noopener noreferrer">
-          Eli Elad Elrom - React Tutorials
-        </a>
+        <select value={days} onChange={daysHandler}>
+          {daysList.map((frequency: Day) => (
+            <option key={frequency.id} value={frequency.value}>
+              {frequency.label}
+            </option>
+          ))}
+        </select>
+        <h2>Getting started with React testing library</h2>
       </header>
     </div>
   )
