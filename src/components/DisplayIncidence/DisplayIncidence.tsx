@@ -1,28 +1,21 @@
 import React, { useState } from 'react'
-import { selectFrequency } from '../../redux/daySlice'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import Select, { ValueType } from 'react-select'
+import { useAppSelector } from '../../redux/hooks'
 import { Day } from '../../redux/types/dayTypes'
 import './DisplayIncidence.scss'
 
 const DisplayIncidence: React.FC = () => {
   const daysList = useAppSelector((state) => state.days.days)
-  const selectedDay = useAppSelector((state) => state.days.selectedDay)
-  const dispatch = useAppDispatch()
-  const [days, setDays] = useState<number>(selectedDay.value)
-
-  const daysHandler = async (event: React.ChangeEvent<{ value: unknown }>) => {
-    setDays(event.target.value as number)
-    dispatch(selectFrequency(event.target.value as number))
+  const [selectedDays, setSelectedDays] = useState<ValueType<Day, false>>(daysList[0])
+  const daysHandler = async (option: ValueType<Day, false>) => {
+    setSelectedDays(option)
   }
+
   return (
-    <div className="m-3 d-flex justify-content-center">
-      <select value={days} onChange={daysHandler}>
-        {daysList.map((frequency: Day) => (
-          <option key={frequency.id} value={frequency.value}>
-            {frequency.label}
-          </option>
-        ))}
-      </select>
+    <div className="container">
+      <div className="mx-auto select-box">
+        <Select<Day> value={selectedDays} getOptionLabel={(day: Day) => day.label} getOptionValue={(day: Day) => day.value.toString()} options={daysList} isClearable={true} onChange={daysHandler} />
+      </div>
     </div>
   )
 }

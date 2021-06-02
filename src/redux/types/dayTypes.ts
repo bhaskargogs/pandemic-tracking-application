@@ -1,15 +1,12 @@
 export interface Day {
-  id: number;
-  label: string;
-  value: number;
+  id: number
+  label: string
+  value: number
 }
 
-const selectedDay: Day = { id: 1, label: '1 week', value: 7 };
-
 type InitialStateType = {
-  days: Day[];
-  selectedDay: Day;
-};
+  days: Day[]
+}
 
 const days: Day[] = [
   {
@@ -37,6 +34,6 @@ const days: Day[] = [
     label: '1 year',
     value: 365,
   },
-];
+]
 
-export const initialState: InitialStateType = { days, selectedDay };
+export const initialState: InitialStateType = { days }
