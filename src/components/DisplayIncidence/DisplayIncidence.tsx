@@ -15,7 +15,7 @@ const DisplayIncidence: React.FC = () => {
     dispatch(selectFrequency(event.target.value as number))
   }
   return (
-    <div className="DisplayIncidence">
+    <div className="m-3 d-flex justify-content-center">
       <select value={days} onChange={daysHandler}>
         {daysList.map((frequency: Day) => (
           <option key={frequency.id} value={frequency.value}>

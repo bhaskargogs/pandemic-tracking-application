@@ -10,8 +10,22 @@ describe('<App />', () => {
     component = shallow(<App />)
   })
 
-  it('should render with given state from Redux store', () => {
-    expect(component).toMatchSnapshot()
+  test('It should mount', () => {
+    expect(component.length).toBe(1)
+  })
+
+  it('should render to match snapshot', () => {
+    expect(component.getElements()).toMatchSnapshot()
+  })
+
+  it('should contain "Covid-19 tracker application"', () => {
+    const header = component.find('h3')
+    expect(header.text()).toEqual('COVID-19 Tracker application')
+  })
+
+  it('should contain "DisplayIncidence" component', () => {
+    const displayIncidenceComponent = component.find('DisplayIncidence')
+    expect(displayIncidenceComponent).toHaveLength(1)
   })
 })
 

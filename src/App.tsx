@@ -4,11 +4,9 @@ import DisplayIncidence from './components/DisplayIncidence/DisplayIncidence'
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <DisplayIncidence />
-        <h2>Getting started with React testing library</h2>
-      </header>
+    <div className="container">
+      <h3 className="justify-content-center d-flex App">COVID-19 Tracker application</h3>
+      <DisplayIncidence />
     </div>
   )
 }
