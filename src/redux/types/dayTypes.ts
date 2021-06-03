@@ -1,40 +1,51 @@
 export interface Day {
-  id: number
   label: string
-  value: number
+  value: string
+}
+
+export interface DayOption {
+  label: string
+  options: Day[]
 }
 
 type InitialStateType = {
+  dayOptions: DayOption[]
   days: Day[]
   selectedDay: Day
 }
 
 const days: Day[] = [
   {
-    id: 1,
     label: '1 week',
-    value: 7,
+    value: '7',
   },
   {
-    id: 2,
     label: '1 month',
-    value: 31,
+    value: '31',
   },
   {
-    id: 3,
     label: '3 months',
-    value: 90,
+    value: '90',
   },
   {
-    id: 4,
     label: '6 months',
-    value: 183,
+    value: '183',
   },
   {
-    id: 5,
     label: '1 year',
-    value: 365,
+    value: '365',
   },
 ]
 
-export const initialState: InitialStateType = { days, selectedDay: days[0] }
+const dayOptions: DayOption[] = [
+  {
+    label: 'Days',
+    options: days,
+  },
+  {
+    label: 'Custom',
+    options: [{ label: 'Custom', value: 'Custom' }],
+  },
+]
+
+export const initialState: InitialStateType = { days, dayOptions, selectedDay: days[0] }
