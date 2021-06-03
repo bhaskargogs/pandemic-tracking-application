@@ -6,6 +6,7 @@ export interface Day {
 
 type InitialStateType = {
   days: Day[]
+  selectedDay: Day
 }
 
 const days: Day[] = [
@@ -36,4 +37,4 @@ const days: Day[] = [
   },
 ]
 
-export const initialState: InitialStateType = { days }
+export const initialState: InitialStateType = { days, selectedDay: days[0] }
