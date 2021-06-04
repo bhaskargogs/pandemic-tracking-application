@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Day, initialState } from './types/dayTypes'
 
-export const daysSlice = createSlice({
+const daySlice = createSlice({
   name: 'days',
   initialState,
   reducers: {
@@ -18,6 +18,6 @@ export const daysSlice = createSlice({
     },
   },
 })
-export const { toggleDays, addDays } = daysSlice.actions
+export const { toggleDays, addDays } = daySlice.actions
 
-export default daysSlice.reducer
+export default daySlice.reducer

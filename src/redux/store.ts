@@ -1,12 +1,17 @@
-import { configureStore } from '@reduxjs/toolkit'
-import logger from 'redux-logger'
-import { daysSlice } from './daySlice'
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
+import daySlice from './daySlice'
+import districtSlice from './districtSlice'
 
 const store = configureStore({
   reducer: {
-    days: daysSlice.reducer,
+    days: daySlice,
+    districts: districtSlice,
   },
-  middleware: [logger],
+  // middleware: [logger],
 })
 
 export default store
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>

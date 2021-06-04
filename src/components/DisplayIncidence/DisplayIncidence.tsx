@@ -1,9 +1,11 @@
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import Select, { StylesConfig, ValueType } from 'react-select'
+import { fetchDistricts } from '../../features/districts'
 import { addDays, toggleDays } from '../../redux/daySlice'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { Day } from '../../redux/types/dayTypes'
+import { District } from '../../redux/types/districtTypes'
 import './DisplayIncidence.scss'
 
 const customControlStyles: CSSProperties = {
@@ -14,7 +16,16 @@ const customControlStyles: CSSProperties = {
 
 type IsMulti = false
 
-const selectStyle: StylesConfig<Day, IsMulti> = {
+const selectDayStyle: StylesConfig<Day, IsMulti> = {
+  control: (provided, state) => {
+    return {
+      ...provided,
+      ...customControlStyles,
+    }
+  },
+}
+
+const selectDistrictStyle: StylesConfig<District, IsMulti> = {
   control: (provided, state) => {
     return {
       ...provided,
@@ -24,21 +35,30 @@ const selectStyle: StylesConfig<Day, IsMulti> = {
 }
 
 const DisplayIncidence: React.FC = () => {
-  const daysListCopy = useAppSelector((state) => state.days.dayOptions)
-  const daysList = useAppSelector((state) => state.days.days)
   const dispatch = useAppDispatch()
-  const [selectedDays, setSelectedDays] = useState<ValueType<Day, false>>(daysList[0])
+  const daysList = useAppSelector((state) => state.days.dayOptions)
+  useEffect(() => {
+    dispatch(fetchDistricts(''))
+  }, [])
+  const districtsList = useAppSelector((state) => state.districts.districts)
+  const districtListStatus = useAppSelector((state) => state.districts.status)
+  const [selectedDays, setSelectedDays] = useState<ValueType<Day, false>>(daysList[0].options[0])
+  const [selectedDistricts, setSelectedDistricts] = useState<ValueType<District, false>>(districtsList[0])
   const daysHandler = async (option: ValueType<Day, false>) => {
     setSelectedDays(option)
     if (option !== null) {
-      dispatch(toggleDays(option as Day))
+      dispatch(toggleDays(option))
+    }
+  }
+  const districtHandler = async (option: ValueType<District, false>) => {
+    setSelectedDistricts(option)
+    if (option !== null) {
+      console.log(option)
+      // dispatch(toggleDistricts(option))
     }
   }
 
   const customDaysHandler = (event: React.FormEvent<HTMLFormElement>) => {
-    // setSelectedDays(input.)
-    // console.log(typeof event.target.valueAsNumber)
-    // console.log(event.target.value)
     event.preventDefault()
     const form = event.currentTarget
     const formElements = form.elements as typeof form.elements & {
@@ -56,23 +76,27 @@ const DisplayIncidence: React.FC = () => {
   return (
     <div className="d-flex justify-content-evenly">
       <div>
-        <Select<Day>
-          styles={selectStyle}
-          value={selectedDays}
-          getOptionLabel={(day: Day) => day.label}
-          getOptionValue={(day: Day) => day.value.toString()}
-          options={daysListCopy}
-          isClearable={true}
-          onChange={daysHandler}
-        />
+        {districtListStatus === 'loading' ? (
+          'Loading Districts ...'
+        ) : (
+          <Select<District>
+            styles={selectDistrictStyle}
+            value={selectedDistricts}
+            // getOptionLabel={(district: District) => district.name.toString()}
+            // getOptionValue={(district: District) => district.ags.toString()}
+            options={districtsList}
+            isClearable={true}
+            onChange={districtHandler}
+          />
+        )}
       </div>
       <div className="">
         <Select<Day>
-          styles={selectStyle}
+          styles={selectDayStyle}
           value={selectedDays}
           // getOptionLabel={(day: Day) => day.label}
           // getOptionValue={(day: Day) => day.value.toString()}
-          options={daysListCopy}
+          options={daysList}
           isClearable={true}
           onChange={daysHandler}
         />
@@ -98,3 +122,6 @@ const DisplayIncidence: React.FC = () => {
 }
 
 export default DisplayIncidence
+function toggleDistricts(arg0: District): any {
+  throw new Error('Function not implemented.')
+}
