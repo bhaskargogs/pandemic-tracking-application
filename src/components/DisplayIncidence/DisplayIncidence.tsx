@@ -1,8 +1,10 @@
 import React, { CSSProperties, useEffect, useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
+import SearchIcon from '@material-ui/icons/Search'
 import Select, { StylesConfig, ValueType } from 'react-select'
 import { fetchDistricts } from '../../features/districts'
 import { addDays, toggleDays } from '../../redux/daySlice'
+import { toggleDistricts } from '../../redux/districtSlice'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { Day } from '../../redux/types/dayTypes'
 import { District } from '../../redux/types/districtTypes'
@@ -53,8 +55,7 @@ const DisplayIncidence: React.FC = () => {
   const districtHandler = async (option: ValueType<District, false>) => {
     setSelectedDistricts(option)
     if (option !== null) {
-      console.log(option)
-      // dispatch(toggleDistricts(option))
+      dispatch(toggleDistricts(option))
     }
   }
 
@@ -74,54 +75,36 @@ const DisplayIncidence: React.FC = () => {
   }
 
   return (
-    <div className="d-flex justify-content-evenly">
-      <div>
+    <div className="d-flex ">
+      {/* justify-content-evenly */}
+      <div className="p-2">
         {districtListStatus === 'loading' ? (
           'Loading Districts ...'
         ) : (
-          <Select<District>
-            styles={selectDistrictStyle}
-            value={selectedDistricts}
-            // getOptionLabel={(district: District) => district.name.toString()}
-            // getOptionValue={(district: District) => district.ags.toString()}
-            options={districtsList}
-            isClearable={true}
-            onChange={districtHandler}
-          />
+          <Select<District> placeholder="Select District" styles={selectDistrictStyle} value={selectedDistricts} options={districtsList} isClearable={true} onChange={districtHandler} />
         )}
       </div>
-      <div className="">
-        <Select<Day>
-          styles={selectDayStyle}
-          value={selectedDays}
-          // getOptionLabel={(day: Day) => day.label}
-          // getOptionValue={(day: Day) => day.value.toString()}
-          options={daysList}
-          isClearable={true}
-          onChange={daysHandler}
-        />
+      <div className="p-2">
+        <Select<Day> placeholder="Select Days" styles={selectDayStyle} value={selectedDays} options={daysList} isClearable={true} onChange={daysHandler} />
       </div>
-      <div className="">
-        {selectedDays?.label === 'Custom' ? (
-          <Form onSubmit={customDaysHandler} inline>
-            <Row>
-              <Col>
-                <Form.Control className="mb-2 mr-sm-2 input-box" id="customDays" placeholder="Enter Days" />
-              </Col>
-              <Col>
-                <Button type="submit" className="mb-2">
-                  Submit
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        ) : null}
-      </div>
+      {/* <div className="p-1"> */}
+      {selectedDays?.label === 'Custom' ? (
+        <Form onSubmit={customDaysHandler} inline>
+          <Row>
+            <Col className="p-2">
+              <Form.Control className="mb-2 mr-sm-2 input-box" id="customDays" placeholder="Enter Days" />
+            </Col>
+            <Col className="p-2">
+              <Button type="submit" className="mb-2">
+                <SearchIcon />
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      ) : null}
+      {/* </div> */}
     </div>
   )
 }
 
 export default DisplayIncidence
-function toggleDistricts(arg0: District): any {
-  throw new Error('Function not implemented.')
-}

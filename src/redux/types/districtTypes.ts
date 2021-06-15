@@ -10,4 +10,12 @@ export interface DistrictState {
   selectedDistrict: District
 }
 
-export const initialState: DistrictState = { districts: [], status: 'idle', error: null, selectedDistrict: { label: '', value: '' } }
+export const initialState: DistrictState = {
+  districts: [],
+  status: 'idle',
+  error: null,
+  selectedDistrict: {
+    label: '',
+    value: '',
+  },
+}
