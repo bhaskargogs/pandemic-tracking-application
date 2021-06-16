@@ -15,21 +15,21 @@ const districtSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // when send a request, fetchWeatherForecast is pending
+    // when send a request, fetchDistricts is pending
     builder.addCase(fetchDistricts.pending, (state) => {
       // change status to loading and clear previous errors
       state.status = 'loading'
       state.error = null
     })
 
-    // when server responses with data, fetchWeatherForecast is fullfilled
+    // when server responses with data, fetchDistricts is fullfilled
     builder.addCase(fetchDistricts.fulfilled, (state, { payload }) => {
       // change status back to idle and add forecast to forecasts state
       state.districts.push(...payload)
       state.status = 'idle'
     })
 
-    // when server responses with error, fetchWeatherForecast is rejected
+    // when server responses with error, fetchDistricts is rejected
     builder.addCase(fetchDistricts.rejected, (state, { payload }) => {
       // change status back to idle and add error to state
       if (payload) state.error = payload.errorMessage

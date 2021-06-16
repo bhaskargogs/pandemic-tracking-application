@@ -41,7 +41,7 @@ const DisplayIncidence: React.FC = () => {
   const daysList = useAppSelector((state) => state.days.dayOptions)
   useEffect(() => {
     dispatch(fetchDistricts(''))
-  }, [])
+  }, [dispatch])
   const districtsList = useAppSelector((state) => state.districts.districts)
   const districtListStatus = useAppSelector((state) => state.districts.status)
   const [selectedDays, setSelectedDays] = useState<ValueType<Day, false>>(daysList[0].options[0])
@@ -75,34 +75,34 @@ const DisplayIncidence: React.FC = () => {
   }
 
   return (
-    <div className="d-flex ">
+    <div className="select-container">
       {/* justify-content-evenly */}
-      <div className="p-2">
+      <div className="navbar">
         {districtListStatus === 'loading' ? (
           'Loading Districts ...'
         ) : (
           <Select<District> placeholder="Select District" styles={selectDistrictStyle} value={selectedDistricts} options={districtsList} isClearable={true} onChange={districtHandler} />
         )}
       </div>
-      <div className="p-2">
+      <div className="navbar">
         <Select<Day> placeholder="Select Days" styles={selectDayStyle} value={selectedDays} options={daysList} isClearable={true} onChange={daysHandler} />
       </div>
-      {/* <div className="p-1"> */}
-      {selectedDays?.label === 'Custom' ? (
-        <Form onSubmit={customDaysHandler} inline>
-          <Row>
-            <Col className="p-2">
-              <Form.Control className="mb-2 mr-sm-2 input-box" id="customDays" placeholder="Enter Days" />
-            </Col>
-            <Col className="p-2">
-              <Button type="submit" className="mb-2">
-                <SearchIcon />
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      ) : null}
-      {/* </div> */}
+      <div className="navbar">
+        {selectedDays?.label === 'Custom' ? (
+          <Form onSubmit={customDaysHandler} inline>
+            <Row>
+              <Col>
+                <Form.Control className="mb-2 mr-sm-2 input-box" id="customDays" placeholder="Enter Days" />
+              </Col>
+              <Col>
+                <Button type="submit" className="mb-2">
+                  <SearchIcon />
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        ) : null}
+      </div>
     </div>
   )
 }
