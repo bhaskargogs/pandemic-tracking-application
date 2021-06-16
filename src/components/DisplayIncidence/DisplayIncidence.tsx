@@ -76,7 +76,6 @@ const DisplayIncidence: React.FC = () => {
 
   return (
     <div className="select-container">
-      {/* justify-content-evenly */}
       <div className="navbar">
         {districtListStatus === 'loading' ? (
           'Loading Districts ...'
